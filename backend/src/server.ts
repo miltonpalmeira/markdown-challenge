@@ -3,6 +3,8 @@ import cors from "cors";
 import { Server } from "socket.io";
 import http from "http";
 import dotenv from "dotenv";
+import authRoutes  from './routes/authRoutes';
+import documentRoutes  from './routes/documentRoutes';
 
 dotenv.config();
 
@@ -18,6 +20,8 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
+app.use('/auth', authRoutes);
+app.use('/documents', documentRoutes);
 
 // WebSocket
 io.on("connection", (socket) => {
