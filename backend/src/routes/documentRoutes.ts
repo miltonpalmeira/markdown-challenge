@@ -1,7 +1,7 @@
 import { Router, Response, NextFunction } from "express";
-import prisma from "../../prisma/PrismaClient";
-import { authenticateToken } from "../middlewares/authenticateToken";
-import { CustomRequest } from "../interfaces/CustomRequest";
+import prisma from "../../prisma/PrismaClient.js";
+import { authenticateToken } from "../middlewares/authenticateToken.js";
+import { CustomRequest } from "../interfaces/CustomRequest.js";
 
 const router = Router();
 

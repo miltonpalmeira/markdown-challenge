@@ -1,7 +1,7 @@
 import { Router } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import prisma from "../../prisma/PrismaClient";
+import prisma from "../../prisma/PrismaClient.js";
 import dotenv from "dotenv";
 
 dotenv.config();

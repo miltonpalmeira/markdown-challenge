@@ -3,8 +3,8 @@ import cors from "cors";
 import { Server } from "socket.io";
 import http from "http";
 import dotenv from "dotenv";
-import authRoutes  from './routes/authRoutes';
-import documentRoutes  from './routes/documentRoutes';
+import authRoutes  from './routes/authRoutes.js';
+import documentRoutes  from './routes/documentRoutes.js';
 
 dotenv.config();
 
@@ -42,5 +42,5 @@ io.on("connection", (socket) => {
 
 const PORT = process.env.PORT || 4000;
 server.listen(PORT, () => {
-    console.log('Server running');
+    console.log(`Server running at: http://localhost:${process.env.PORT}`);
 })
