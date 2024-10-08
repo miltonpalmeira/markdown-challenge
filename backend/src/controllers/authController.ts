@@ -24,6 +24,7 @@ export const register = async (req: Request, res: Response) => {
 export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
+  try {  
   const user = await prisma.user.findUnique({ where: { email } });
   if (!user || !(await bcrypt.compare(password, user.password))) {
     res.status(401).json({ message: "Invalid credentials" });
@@ -35,5 +36,12 @@ export const login = async (req: Request, res: Response) => {
     { expiresIn: "1h" }
   );
 
-  res.json({ token });
+  res.json({ token, user });
+
+  }
+  catch (error) {
+    console.log('Error login: ');
+    console.log(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
 };
