@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import styles from "./page.module.css";
 import { io } from "socket.io-client";
 import Editor from "./components/Editor";
-import Preview from "./components/Preview";
+import Preview from "./components/Preview/Preview";
 import UserList from "./components/UserList";
 import Modal from "./components/Modal/Modal";
 import Login from "./components/Login/Login";
@@ -47,7 +47,7 @@ export default function Home() {
         <>
           <button onClick={() => setModalOpen(true)} className={styles.openModalButton}>Login</button>
           <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
-            <Login onClose={() => setModalOpen(false)} />
+            <Login onClose={() => setModalOpen(false)} onLoginSuccess={handleLoginSuccess} />
           </Modal>
         </>
       ) : (

@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./Modal.module.css"; // Assuming you have some styles for the modal
+import styles from "./Modal.module.css";
 
 interface ModalProps {
   isOpen: boolean;

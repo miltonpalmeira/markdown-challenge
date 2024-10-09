@@ -1,8 +1,12 @@
 import React, { useState } from "react";
-import styles from "./Login.module.css"; // Import the CSS module
+import styles from "./Login.module.css";
 import { useAuth } from "@/app/context/AuthContext";
+interface LoginProps {
+  onClose: () => void;
+  onLoginSuccess: (username: string) => void;
+}
 
-const Login: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+const Login: React.FC<LoginProps> = ({ onClose, onLoginSuccess }) => {
   const { setUser } = useAuth();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -27,6 +31,7 @@ const Login: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       const data = await response.json();
       const { user } = data;
       setUser(user);
+      onLoginSuccess(user.username);
       onClose();
     } catch (err) {
       setError("Invalid credentials. Please try again.");
