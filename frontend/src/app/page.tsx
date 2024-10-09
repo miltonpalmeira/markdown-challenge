@@ -83,6 +83,7 @@ export default function Home() {
       setRedoStack((prevRedo) => [markDown, ...prevRedo]);
       setMarkDown(lastValue);
       setHistory((prevHistory) => prevHistory.slice(0, -1));
+      socket.emit('undo');
     }
   };
 
@@ -92,6 +93,7 @@ export default function Home() {
       setHistory((prevHistory) => [...prevHistory, markDown]);
       setMarkDown(lastRedoValue);
       setRedoStack((prevRedo) => prevRedo.slice(1));
+      socket.emit('redo');
     }
   };
 
