@@ -23,20 +23,29 @@ app.use(express.json());
 app.use('/auth', authRoutes);
 app.use('/documents', documentRoutes);
 
+const users: any = [];
+
 // WebSocket
 io.on("connection", (socket) => {
   console.log("User connected: ", socket.id);
 
-  socket.on("join-document", (documentId) => {
-    socket.join(documentId);
+  socket.on("user_connected", (username) => {
+    users[socket.id] = username;
+    socket.broadcast.emit("user_connected", username);
   });
 
-  socket.on("document-update", (data) => {
-    io.to(data.documentId).emit("document-update", data.content);
+  socket.on("document-update", (content) => {
+    socket.broadcast.emit("document-update", content);
   });
 
   socket.on('disconnect', () => {
     console.log('User disconnected: ', socket.id);
+    const username = users[socket.id];
+    if (username) {
+      console.log("User disconnected: ", username);
+      socket.broadcast.emit("user_disconnected", username);
+      delete users[socket.id];
+    }
   })
 });
 

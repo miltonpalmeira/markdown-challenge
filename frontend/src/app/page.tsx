@@ -18,6 +18,7 @@ export default function Home() {
 
   const handleLoginSuccess = (user: string) => {
     setUsername(user);
+    socket.emit("user_connected", user);
   };
 
   useEffect(() => {
@@ -29,15 +30,20 @@ export default function Home() {
       setUsers((prevUsers) => prevUsers.filter((u) => u !== user));
     });
 
+    socket.on("document-update", (content: string) => {
+      setMarkDown(content);
+    });
+
     return () => {
       socket.off("user_connected");
       socket.off("user_disconnected");
+      socket.off("document-update");
     };
   }, []);
 
   const handleChange = (value: string) => {
     setMarkDown(value);
-    socket.emit("edit", value);
+    socket.emit("document-update", value);
   };
 
   return (
