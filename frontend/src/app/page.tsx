@@ -19,6 +19,8 @@ export default function Home() {
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [isRegisterModalOpen, setRegisterModalOpen] = useState<boolean>(false);
   const [username, setUsername] = useState<string | null>(null);
+  const [history, setHistory] = useState<string[]>([]);
+  const [redoStack, setRedoStack] = useState<string[]>([]);
 
   const handleLoginSuccess = (user: string) => {
     setUsername(user);
@@ -69,8 +71,28 @@ export default function Home() {
   }, []);
 
   const handleChange = (value: string) => {
+    setHistory((prevHistory) => [...prevHistory, markDown]);
+    setRedoStack([]);
     setMarkDown(value);
     socket.emit("document-update", value);
+  };
+
+  const handleUndo = () => {
+    if (history.length > 0) {
+      const lastValue = history[history.length - 1];
+      setRedoStack((prevRedo) => [markDown, ...prevRedo]);
+      setMarkDown(lastValue);
+      setHistory((prevHistory) => prevHistory.slice(0, -1));
+    }
+  };
+
+  const handleRedo = () => {
+    if (redoStack.length > 0) {
+      const lastRedoValue = redoStack[0];
+      setHistory((prevHistory) => [...prevHistory, markDown]);
+      setMarkDown(lastRedoValue);
+      setRedoStack((prevRedo) => prevRedo.slice(1));
+    }
   };
 
   return (
@@ -108,7 +130,9 @@ export default function Home() {
       ) : (
         <>
           <div>
-            <LogoutButton onLogout={handleLogout} />{" "}
+            <LogoutButton onLogout={handleLogout} />
+            <button onClick={handleUndo} className={styles.undoRedoButton} disabled={history.length === 0}>Undo</button>
+            <button onClick={handleRedo} className={styles.undoRedoButton} disabled={redoStack.length === 0}>Redo</button>
           </div>
           <Editor markDown={markDown} onChange={handleChange} />
           <Preview content={markDown} />

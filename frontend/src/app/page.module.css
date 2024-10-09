@@ -166,20 +166,47 @@ a.secondary {
 
 .openModalButton {
   padding: 10px 20px;
-  background-color: #007bff; /* Primary color */
+  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
-  font-size: 16px; /* Increased font size */
+  font-size: 16px;
 }
 
 .openModalButton:hover {
-  background-color: #0056b3; /* Darker shade on hover */
-  transform: translateY(-2px); /* Lift effect */
+  background-color: #0056b3;
+  transform: translateY(-2px);
 }
 
 .openModalButton:focus {
-  outline: none; /* Remove outline */
+  outline: none;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.undoRedoButton {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-left: 10px;
+}
+
+.undoRedoButton:hover {
+  background-color: #0056b3;
+}
+
+.undoRedoButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  color: #666;
 }
