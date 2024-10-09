@@ -29,7 +29,8 @@ const Login: React.FC<LoginProps> = ({ onClose, onLoginSuccess }) => {
       }
 
       const data = await response.json();
-      const { user } = data;
+      const { user, token } = data;
+      localStorage.setItem("token", token);
       setUser(user);
       onLoginSuccess(user.username);
       onClose();

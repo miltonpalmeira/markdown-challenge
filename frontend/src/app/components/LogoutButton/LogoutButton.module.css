@@ -1,0 +1,19 @@
+.logoutButton {
+  background-color: #f44336;
+  color: white;
+  border: none; /* Sem borda */
+  padding: 10px 20px; /* Espaçamento */
+  text-align: center; /* Centralizar texto */
+  text-decoration: none; /* Sem sublinhado */
+  display: inline-block; /* Para que o botão fique no mesmo nível */
+  font-size: 16px; /* Tamanho da fonte */
+  margin: 4px 2px; /* Margem */
+  cursor: pointer; /* Mão ao passar o mouse */
+  border-radius: 4px; /* Bordas arredondadas */
+  transition: background-color 0.3s; /* Transição suave */
+  margin-bottom: 40px;
+}
+
+.logoutButton:hover {
+  background-color: #d32f2f;
+}
