@@ -7,6 +7,8 @@ export const register = async (req: Request, res: Response) => {
   const { email, username, password } = req.body;
   const hashPassword = await bcrypt.hash(password, 10);
 
+  console.log(hashPassword);
+
   try {
     const user = await prisma.user.create({
       data: {
@@ -17,31 +19,32 @@ export const register = async (req: Request, res: Response) => {
     });
     res.json({ message: "User created!", user });
   } catch (err) {
+    console.log(err);
     res.status(400).json({ error: "Error creating user" });
   }
 };
 
-export const login = async (req: Request, res: Response) => {
+export const login = async (req: Request, res: Response): Promise<Response> => {
   const { email, password } = req.body;
 
   try {  
   const user = await prisma.user.findUnique({ where: { email } });
   if (!user || !(await bcrypt.compare(password, user.password))) {
-    res.status(401).json({ message: "Invalid credentials" });
+    return res.status(401).json({ message: "Invalid credentials" });
   }
 
   const token = jwt.sign(
-    { userId: user?.id },
+    { userId: user.id },
     process.env.JWT_SECRET as string,
     { expiresIn: "1h" }
   );
 
-  res.json({ token, user });
+  return res.json({ token, user });
 
   }
   catch (error) {
     console.log('Error login: ');
     console.log(error);
-    res.status(500).json({ message: "Internal server error" });
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
