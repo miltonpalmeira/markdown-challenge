@@ -1,0 +1,61 @@
+.loginForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.loginForm h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.loginForm label {
+  margin: 10px 0 5px;
+}
+
+.loginForm input {
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.loginForm button {
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  flex: 1;
+}
+
+.loginForm .registerButton {
+  background-color: #007bff;
+  color: white;
+  border: none;
+}
+
+.loginForm .registerButton:hover {
+  background-color: #0056b3;
+}
+
+.loginForm .cancelButton {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  margin-left: 10px;
+}
+
+.loginForm .cancelButton:hover {
+  background-color: #c82333;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 15px;
+  text-align: center;
+}
