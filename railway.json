@@ -1,5 +1,5 @@
 {
-  "root": "./backend",
+  "root": "backend",
   "build": {
     "commands": {
       "build": "npm run build"
@@ -7,5 +7,6 @@
   },
   "start": {
     "command": "npm start"
-  }
+  },
+  "exclude": ["frontend"]
 }
