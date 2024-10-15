@@ -40,9 +40,10 @@ export default function Home() {
     const token = localStorage.getItem("token");
     if (token) {
       const decoded: any = jwt.decode(token);
+      console.log(decoded);
       if (decoded) {
-        setUsername(decoded.userId);
-        socket.emit("user_connected", decoded.userId);
+        setUsername(decoded.username);
+        socket.emit("user_connected", decoded.username);
       }
     }
 
@@ -61,6 +62,8 @@ export default function Home() {
 
     socket.on("document-update", (content: string) => {
       setMarkDown(content);
+
+      console.log(`${username} updated the document.`);
     });
 
     return () => {
@@ -73,8 +76,10 @@ export default function Home() {
   const handleChange = (value: string) => {
     setHistory((prevHistory) => [...prevHistory, markDown]);
     setRedoStack([]);
+    if (username) {
+      socket.emit("document-update", value);
+    }
     setMarkDown(value);
-    socket.emit("document-update", value);
   };
 
   const handleUndo = () => {
@@ -83,7 +88,7 @@ export default function Home() {
       setRedoStack((prevRedo) => [markDown, ...prevRedo]);
       setMarkDown(lastValue);
       setHistory((prevHistory) => prevHistory.slice(0, -1));
-      socket.emit('undo');
+      socket.emit("undo");
     }
   };
 
@@ -93,7 +98,7 @@ export default function Home() {
       setHistory((prevHistory) => [...prevHistory, markDown]);
       setMarkDown(lastRedoValue);
       setRedoStack((prevRedo) => prevRedo.slice(1));
-      socket.emit('redo');
+      socket.emit("redo");
     }
   };
 
@@ -114,7 +119,10 @@ export default function Home() {
               onLoginSuccess={handleLoginSuccess}
             />
           </Modal>
-          <button onClick={() => setRegisterModalOpen(true)} className={styles.openModalButton}>
+          <button
+            onClick={() => setRegisterModalOpen(true)}
+            className={styles.openModalButton}
+          >
             SignUp
           </button>
           <Modal
@@ -133,12 +141,24 @@ export default function Home() {
         <>
           <div>
             <LogoutButton onLogout={handleLogout} />
-            <button onClick={handleUndo} className={styles.undoRedoButton} disabled={history.length === 0}>Undo</button>
-            <button onClick={handleRedo} className={styles.undoRedoButton} disabled={redoStack.length === 0}>Redo</button>
+            <button
+              onClick={handleUndo}
+              className={styles.undoRedoButton}
+              disabled={history.length === 0}
+            >
+              Undo
+            </button>
+            <button
+              onClick={handleRedo}
+              className={styles.undoRedoButton}
+              disabled={redoStack.length === 0}
+            >
+              Redo
+            </button>
           </div>
           <Editor markDown={markDown} onChange={handleChange} />
           <Preview content={markDown} />
-          <UserList users={users} />
+          <UserList users={users} currentUser={username} />
         </>
       )}
     </div>

@@ -31,6 +31,10 @@ let currentVersion = -1;
 io.on("connection", (socket) => {
   console.log("User connected: ", socket.id);
 
+  if (documentHistory.length > 0) {
+    socket.emit("document-update", documentHistory[currentVersion]);
+  }
+
   socket.on("user_connected", (username) => {
     users[socket.id] = username;
     socket.broadcast.emit("user_connected", username);
