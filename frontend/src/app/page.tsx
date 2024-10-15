@@ -11,7 +11,7 @@ import jwt from "jsonwebtoken";
 import LogoutButton from "./components/LogoutButton/LogoutButton";
 import Register from "./components/Login/Register";
 
-const socket = io("http://localhost:4000");
+const socket = io(process.env.NEXT_PUBLIC_API_URL);
 
 export default function Home() {
   const [markDown, setMarkDown] = useState<string>("");
